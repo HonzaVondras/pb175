@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
-interface Restaurant {
-  id: number;
-  name: string;
-  image: string;
-}
+import { Restaurant } from "./restaurantInterface";
+import { useNavigate } from "react-router-dom";
 
 const Restaurants: React.FC = () => {
+  const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
 
   useEffect(() => {
@@ -25,6 +22,11 @@ const Restaurants: React.FC = () => {
     );
   };
 
+  const handleRestaurantClick = (restaurant: Restaurant) => {
+    navigate("/Order");
+    //navigate(`/Order/${restaurant.id}`);
+  };
+
   return (
     <div>
       <div style={{ display: "grid", placeItems: "center" }}>
@@ -39,9 +41,15 @@ const Restaurants: React.FC = () => {
         </label>
       </div>
       {filterRestaurants().map((restaurant) => (
-        <div
+        <button
           key={restaurant.id}
-          style={{ display: "flex", alignItems: "center" }}
+          onClick={() => handleRestaurantClick(restaurant)}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            cursor: "pointer",
+            marginTop: "10px",
+          }}
         >
           <img
             src={restaurant.image}
@@ -49,7 +57,12 @@ const Restaurants: React.FC = () => {
             style={{ width: "100px", height: "100px", marginRight: "10px" }}
           />
           <div>{restaurant.name}</div>
-        </div>
+          <ul>
+            {restaurant.food_items.map((foodItem) => (
+              <li key={foodItem.id}>{foodItem.name}</li>
+            ))}
+          </ul>
+        </button>
       ))}
     </div>
   );
