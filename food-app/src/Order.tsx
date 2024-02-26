@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Restaurant } from "./restaurantInterface";
+import FoodComponent from "./FoodComponent";
 
 const Order: React.FC<{ id: number }> = ({ id: restaurantId }) => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
@@ -26,10 +27,13 @@ const Order: React.FC<{ id: number }> = ({ id: restaurantId }) => {
             <h1>{restaurant.name}</h1>
             <h2>Menu</h2>
             {restaurant.food_items.map((food) => (
-              <li key={food.id}>{food.name}</li>
+              <FoodComponent key={food.id} foodItem={food}></FoodComponent>
             ))}
           </div>
         ))}
+        <div style={{ display: "grid", placeItems: "center" }}>
+          <button style={{ marginTop: "50px" }}>Order!</button>
+        </div>
       </ul>
     </div>
   );
