@@ -13,7 +13,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/Order" element={<Order id={orderId} />} />
+        <Route path="/order" element={<Order id={orderId} />} />
         <Route path="/" element={<HomePage onRestaurantClick={setOrderId} />} />
       </Routes>
     </Router>

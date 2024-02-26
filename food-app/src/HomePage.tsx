@@ -27,7 +27,7 @@ const HomePage: React.FC<{ onRestaurantClick: (id: number) => void }> = ({
 
   const handleRestaurantClick = (id: number) => {
     onRestaurantClick(id);
-    navigate("/Order");
+    navigate("/order");
   };
   return (
     <div className="home-page-container">
