@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FoodItem } from "./foodItemInterface";
+import "./stylesFood.css";
 
 interface FoodComponentProps {
   foodItem: FoodItem;
@@ -26,22 +27,27 @@ const FoodComponent: React.FC<FoodComponentProps> = ({
   };
 
   return (
-    <div>
-      {foodItem.name} {foodItem.price}
-      <label style={{ marginLeft: "50px" }}>Amount:</label>
-      <button
-        onClick={() => handleAmountChange(foodAmount + 1)}
-        style={{ marginLeft: "10px", marginRight: "10px" }}
-      >
-        +
-      </button>
-      {foodAmount}
-      <button
-        onClick={() => handleAmountChange(foodAmount - 1)}
-        style={{ marginLeft: "10px", marginRight: "10px" }}
-      >
-        -
-      </button>
+    <div className="food-box">
+      <div className="food-container">
+        <img src={foodItem.image} alt={foodItem.name} className="food-image" />
+        <div>{foodItem.name}</div>
+      </div>
+      <div className="amount-container">
+        <div style={{ marginRight: "8px" }}>{foodItem.price} €</div>
+        <button
+          className="amount-button"
+          onClick={() => handleAmountChange(foodAmount + 1)}
+        >
+          +
+        </button>
+        <div className="amount">{foodAmount}</div>
+        <button
+          className="amount-button"
+          onClick={() => handleAmountChange(foodAmount - 1)}
+        >
+          -
+        </button>
+      </div>
     </div>
   );
 };

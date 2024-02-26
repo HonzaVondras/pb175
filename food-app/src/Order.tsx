@@ -21,10 +21,13 @@ const Order: React.FC<{ id: number }> = ({ id: restaurantId }) => {
   }, []);
 
   return (
-    <div>
+    <div className="home-page-container">
       <ul>
         {restaurants.map((restaurant) => (
-          <div key={restaurant.id}>
+          <div
+            key={restaurant.id}
+            style={{ display: "grid", placeItems: "center" }}
+          >
             <h1>{restaurant.name}</h1>
             <h2>Menu</h2>
             {restaurant.food_items.map((food) => (
@@ -41,8 +44,8 @@ const Order: React.FC<{ id: number }> = ({ id: restaurantId }) => {
           </div>
         ))}
         <div style={{ display: "grid", placeItems: "center" }}>
-          <button style={{ marginTop: "50px" }}>
-            Order! ${totalPrice.toFixed(2)} Euro
+          <button className="order-button">
+            Order! ${totalPrice.toFixed(2)} €
           </button>
         </div>
       </ul>

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Restaurant } from "./restaurantInterface";
 import RestaurantComponent from "./RestaurantComponent";
+import "./styles.css";
 
 const HomePage: React.FC<{ onRestaurantClick: (id: number) => void }> = ({
   onRestaurantClick,
@@ -29,18 +30,17 @@ const HomePage: React.FC<{ onRestaurantClick: (id: number) => void }> = ({
     navigate("/Order");
   };
   return (
-    <div>
-      <div style={{ display: "grid", placeItems: "center" }}>
-        <h1>Restaurants</h1>
-        <label>
-          <input
-            type="text"
-            placeholder="Search for restaurants"
-            value={searchedName}
-            onChange={(e) => setSearchedName(e.target.value)}
-          ></input>
-        </label>
-      </div>
+    <div className="home-page-container">
+      <h1>Restaurants</h1>
+      <label>
+        <input
+          type="text"
+          placeholder="Search for restaurant"
+          value={searchedName}
+          onChange={(e) => setSearchedName(e.target.value)}
+        />
+      </label>
+
       {filterRestaurants().map((restaurant) => (
         <RestaurantComponent
           key={restaurant.id}

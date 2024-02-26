@@ -13,23 +13,21 @@ const RestaurantComponent: React.FC<RestaurantProps> = ({
 }) => {
   return (
     <div className="restaurant-container">
-      <h2 className="restaurant-header">{restaurant.name}</h2>
       <button
         key={restaurant.id}
         onClick={() => onRestaurantClick(restaurant.id)}
         className="restaurant-button"
       >
-        <img
-          src={restaurant.image}
-          alt={restaurant.name}
-          className="restaurant-image"
-        />
-        <div>{restaurant.name}</div>
-        <ul>
-          {restaurant.food_items.map((foodItem) => (
-            <li key={foodItem.id}>{foodItem.name}</li>
-          ))}
-        </ul>
+        <div className="restaurant-image-container">
+          <img
+            src={restaurant.image}
+            alt={restaurant.name}
+            className="restaurant-image"
+          />
+        </div>
+        <div className="restaurant-name">
+          <h2 className="restaurant-header">{restaurant.name}</h2>
+        </div>
       </button>
     </div>
   );
