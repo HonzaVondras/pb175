@@ -3,9 +3,13 @@ from django.shortcuts import render
 # Create your views here.
 
 from rest_framework import generics
-from .models import MenuItem
-from .serializers import MenuItemSerializer
+from .models import FoodItem, Restaurant
+from .serializers import FoodItemSerializer, RestaurantSerializer
 
-class MenuList(generics.ListAPIView):
-    queryset = MenuItem.objects.all()
-    serializer_class = MenuItemSerializer
+class FoodList(generics.ListAPIView):
+    queryset = FoodItem.objects.all()
+    serializer_class = FoodItemSerializer
+
+class RestaurantList(generics.ListAPIView):
+    queryset = Restaurant.objects.all()
+    serializer_class = RestaurantSerializer
