@@ -18,15 +18,13 @@ const Order: React.FC<{ id: number }> = ({ id: restaurantId }) => {
       .catch((error) => console.error(error));
   }, []);
 
-  //console.log(restaurants);
-
   return (
     <div>
-      <h2>Menu</h2>
       <ul>
         {restaurants.map((restaurant) => (
           <div key={restaurant.id}>
-            <h1>{restaurant.id}</h1>
+            <h1>{restaurant.name}</h1>
+            <h2>Menu</h2>
             {restaurant.food_items.map((food) => (
               <li key={food.id}>{food.name}</li>
             ))}

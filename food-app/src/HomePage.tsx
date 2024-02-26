@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Restaurant } from "./restaurantInterface";
 import { useNavigate } from "react-router-dom";
+import { Restaurant } from "./restaurantInterface";
+import RestaurantComponent from "./RestaurantComponent";
 
-const Restaurants: React.FC = () => {
+const HomePage: React.FC<{ onRestaurantClick: (id: number) => void }> = ({
+  onRestaurantClick,
+}) => {
   const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [searchedName, setSearchedName] = useState("");
 
   useEffect(() => {
     axios
@@ -14,19 +18,16 @@ const Restaurants: React.FC = () => {
       .catch((error) => console.error(error));
   }, []);
 
-  const [searchedName, setSearchedName] = useState("");
-
   const filterRestaurants = () => {
     return restaurants.filter((restaurant) =>
       restaurant.name.toLowerCase().includes(searchedName.toLowerCase())
     );
   };
 
-  const handleRestaurantClick = (restaurant: Restaurant) => {
+  const handleRestaurantClick = (id: number) => {
+    onRestaurantClick(id);
     navigate("/Order");
-    //navigate(`/Order/${restaurant.id}`);
   };
-
   return (
     <div>
       <div style={{ display: "grid", placeItems: "center" }}>
@@ -41,31 +42,14 @@ const Restaurants: React.FC = () => {
         </label>
       </div>
       {filterRestaurants().map((restaurant) => (
-        <button
+        <RestaurantComponent
           key={restaurant.id}
-          onClick={() => handleRestaurantClick(restaurant)}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            cursor: "pointer",
-            marginTop: "10px",
-          }}
-        >
-          <img
-            src={restaurant.image}
-            alt={restaurant.name}
-            style={{ width: "100px", height: "100px", marginRight: "10px" }}
-          />
-          <div>{restaurant.name}</div>
-          <ul>
-            {restaurant.food_items.map((foodItem) => (
-              <li key={foodItem.id}>{foodItem.name}</li>
-            ))}
-          </ul>
-        </button>
+          restaurant={restaurant}
+          onRestaurantClick={handleRestaurantClick}
+        />
       ))}
     </div>
   );
 };
 
-export default Restaurants;
+export default HomePage;
