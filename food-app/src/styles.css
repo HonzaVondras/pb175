@@ -51,3 +51,18 @@ body {
   display: grid;
   place-items: center;
 }
+
+.paid-container {
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  width: 278px;
+  overflow: hidden;
+  padding: 10px;
+  background-color: #29c615;
+
+  border-radius: 10px;
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  border: none;
+}

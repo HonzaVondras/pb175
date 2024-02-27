@@ -5,9 +5,10 @@ import { Restaurant } from "./restaurantInterface";
 import RestaurantComponent from "./RestaurantComponent";
 import "./styles.css";
 
-const HomePage: React.FC<{ onRestaurantClick: (id: number) => void }> = ({
-  onRestaurantClick,
-}) => {
+const HomePage: React.FC<{
+  paidMoney: number;
+  onRestaurantClick: (id: number) => void;
+}> = ({ paidMoney, onRestaurantClick }) => {
   const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [searchedName, setSearchedName] = useState("");
@@ -32,6 +33,12 @@ const HomePage: React.FC<{ onRestaurantClick: (id: number) => void }> = ({
   return (
     <div className="home-page-container">
       <h1>Restaurants</h1>
+      {paidMoney > 0 && (
+        <div className="paid-container">
+          Received payment of {paidMoney.toFixed(2)} €. <br /> Your order will
+          arrive soon!
+        </div>
+      )}
       <label>
         <input
           type="text"

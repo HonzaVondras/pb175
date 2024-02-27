@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { Restaurant } from "./restaurantInterface";
 import FoodComponent from "./FoodComponent";
 
-const Order: React.FC<{ id: number }> = ({ id: restaurantId }) => {
+const Order: React.FC<{
+  id: number;
+  onOrderClick: (spentMoney: number) => void;
+}> = ({ id: restaurantId, onOrderClick }) => {
+  const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
@@ -19,6 +24,11 @@ const Order: React.FC<{ id: number }> = ({ id: restaurantId }) => {
       )
       .catch((error) => console.error(error));
   }, []);
+
+  const handleRestaurantClick = () => {
+    onOrderClick(totalPrice);
+    navigate("/");
+  };
 
   return (
     <div className="home-page-container">
@@ -44,7 +54,10 @@ const Order: React.FC<{ id: number }> = ({ id: restaurantId }) => {
           </div>
         ))}
         <div style={{ display: "grid", placeItems: "center" }}>
-          <button className="order-button">
+          <button
+            className="order-button"
+            onClick={() => handleRestaurantClick()}
+          >
             Order! ${totalPrice.toFixed(2)} €
           </button>
         </div>
