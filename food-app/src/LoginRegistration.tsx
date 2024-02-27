@@ -61,6 +61,7 @@ function LoginRegistration() {
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     fetchUserByUsername(loginUsername);
+    //TODO: redirect on restaruants
   };
 
   const createPerson = async () => {
@@ -91,6 +92,7 @@ function LoginRegistration() {
       errorLabel.textContent = '';
     }
     createPerson();
+    //TODO: redirect on restaruants
 
   };
 
@@ -101,7 +103,7 @@ function LoginRegistration() {
         <div id="logErrorLabel" style={{color: 'red'}}></div>
         <div style={{ display: 'grid'}}> 
           <label style={{ whiteSpace: 'pre'}}>
-            e-mail or username:{"\n"}
+            username:{"\n"}
             <input type="text" value={loginUsername} onChange={handleLoginUsernameChange} style={{minWidth: '200px'}}/>
           </label>
         </div>
