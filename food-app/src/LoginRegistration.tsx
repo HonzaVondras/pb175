@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios';
 
-function App() {
+function LoginRegistration() {
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
@@ -40,10 +40,27 @@ function App() {
     setRegistrationSurname(e.target.value);
   };
 
+  const fetchUserByUsername = async (username: string) => {
+    console.log(username);
+    const errorLabel = document.getElementById('logErrorLabel');
+    try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/users/${username}/`);
+        const userData = response.data;
+        console.log(userData);
+        if (errorLabel) {
+          errorLabel.textContent = '';
+        }
+    } catch (error) {
+        if (errorLabel) {
+          errorLabel.textContent = 'Invalid username or password';
+        }
+        console.error('Error fetching user by username:', error);
+    }
+};
+
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Username:', loginUsername);
-    console.log('Password:', loginPassword);
+    fetchUserByUsername(loginUsername);
   };
 
   const createPerson = async () => {
@@ -63,23 +80,35 @@ function App() {
 
   const handleRegistrationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const errorLabel = document.getElementById('regErrorLabel');
+    if(registrationEmail == "" || registrationFirstname == "" || registrationPassword == "" || registrationSurname == "" || registrationUsername == "" ){
+      if (errorLabel) {
+        errorLabel.textContent = 'Fill all forms';
+      }
+      return;
+    }
+    if (errorLabel) {
+      errorLabel.textContent = '';
+    }
     createPerson();
+
   };
 
   return (
-    <div style={{ display: 'grid', placeItems: "center" }}>
+    <div style={{ display: 'grid', placeItems: 'center', minWidth: '300px'}}>
       <h1>Login</h1>
-      <form onSubmit={handleLoginSubmit} style={{display: 'grid', margin: 'auto'}}>
+      <form onSubmit={handleLoginSubmit} style={{display: 'grid', margin: 'auto', }}>
+        <div id="logErrorLabel" style={{color: 'red'}}></div>
         <div style={{ display: 'grid'}}> 
           <label style={{ whiteSpace: 'pre'}}>
             e-mail or username:{"\n"}
-            <input type="text" value={loginUsername} onChange={handleLoginUsernameChange} />
+            <input type="text" value={loginUsername} onChange={handleLoginUsernameChange} style={{minWidth: '200px'}}/>
           </label>
         </div>
         <div style={{display: 'grid', marginBottom: '10px' }}>
           <label style={{ whiteSpace: 'pre'}}>
             Password:{"\n"}
-            <input type="password" value={loginPassword} onChange={handleLoginPasswordChange} />
+            <input type="password" value={loginPassword} onChange={handleLoginPasswordChange} style={{minWidth: '200px'}}/>
           </label>
         </div>
         <div style={{display: 'grid', marginBottom: '10px'}}>
@@ -87,35 +116,36 @@ function App() {
         </div>
       </form>
       <h1>Registration</h1>
-      <form onSubmit={handleRegistrationSubmit} style={{display: 'grid', margin: 'auto'}}>
+      <form onSubmit={handleRegistrationSubmit} style={{display: 'grid', margin: 'auto', minWidth: '200px'}}>
+        <div id="regErrorLabel" style={{color: 'red'}}></div>
         <div style={{ display: 'grid'}}> 
           <label style={{ whiteSpace: 'pre'}}>
             Username:{"\n"}
-            <input type="text" value={registrationUsername} onChange={handleRegistrationUsernameChange} />
+            <input type="text" value={registrationUsername} onChange={handleRegistrationUsernameChange} style={{minWidth: '200px'}}/>
           </label>
         </div>
         <div style={{display: 'grid'}}>
           <label style={{ whiteSpace: 'pre'}}>
             Password:{"\n"}
-            <input type="password" value={registrationPassword} onChange={handleRegistrationPasswordChange} />
+            <input type="password" value={registrationPassword} onChange={handleRegistrationPasswordChange} style={{minWidth: '200px'}}/>
           </label>
         </div>
         <div style={{ display: 'grid'}}> 
           <label style={{ whiteSpace: 'pre'}}>
             e-mail:{"\n"}
-            <input type="text" value={registrationEmail} onChange={handleRegistrationEmailChange} />
+            <input type="text" value={registrationEmail} onChange={handleRegistrationEmailChange} style={{minWidth: '200px'}}/>
           </label>
         </div>
         <div style={{ display: 'grid'}}> 
           <label style={{ whiteSpace: 'pre'}}>
             Firstname:{"\n"}
-            <input type="text" value={registrationFirstname} onChange={handleRegistrationFirstnameChange} />
+            <input type="text" value={registrationFirstname} onChange={handleRegistrationFirstnameChange} style={{minWidth: '200px'}}/>
           </label>
         </div>
         <div style={{ display: 'grid', marginBottom: '10px' }}> 
           <label style={{ whiteSpace: 'pre'}}>
             Surname:{"\n"}
-            <input type="text" value={registrationSurname} onChange={handleRegistrationSurnameChange} />
+            <input type="text" value={registrationSurname} onChange={handleRegistrationSurnameChange} style={{minWidth: '200px'}}/>
           </label>
         </div>
         <div style={{display: 'grid', marginBottom: '10px'}}>
@@ -126,4 +156,4 @@ function App() {
   );
 }
 
-export default App;
+export default LoginRegistration;

@@ -16,9 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from AppUsers.views import create_person
+from AppUsers.views import create_person, AppUser, AppUserUsername
 
 urlpatterns = [
+    #path('api/users/<str:username>/', AppUserUsername.as_view(), name='appuser-username-detail'),
+    #path('api/users/', AppUserUsername.as_view(), name='appuser-list'),
+    path('api/', include('AppUsers.urls')),
     path('api/create-person/', create_person, name='create_person'),
     path('admin/', admin.site.urls),
     path('api/', include('menu.urls')),
