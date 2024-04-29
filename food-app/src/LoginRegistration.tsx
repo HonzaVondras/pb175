@@ -94,7 +94,7 @@ function LoginRegistration() {
     const errorLabel = document.getElementById('regErrorLabel');
     if(registrationEmail == "" || registrationFirstname == "" || registrationPassword == "" || registrationSurname == "" || registrationUsername == "" ){
       if (errorLabel) {
-        errorLabel.textContent = 'Fill all forms';
+        errorLabel.textContent = 'Fill all items';
       }
       return;
     }
