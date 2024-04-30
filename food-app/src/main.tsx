@@ -6,6 +6,6 @@ import LoginRegistration from "./LoginRegistration.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <LoginRegistration/>
+    <App/>
   </React.StrictMode>
 );
