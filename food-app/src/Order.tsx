@@ -3,14 +3,18 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Restaurant } from "./restaurantInterface";
 import FoodComponent from "./FoodComponent";
+import NavigationBar from "./NavigationBar";
+import { FoodItem } from "./foodItemInterface";
 
 const Order: React.FC<{
   id: number;
   onOrderClick: (spentMoney: number) => void;
-}> = ({ id: restaurantId, onOrderClick }) => {
+  onEditClick: (food: FoodItem) => void;
+}> = ({ id: restaurantId, onOrderClick, onEditClick }) => {
   const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [editMode, setEditMode] = useState(localStorage.getItem('editMode') === 'true');
 
   useEffect(() => {
     axios
@@ -30,8 +34,21 @@ const Order: React.FC<{
     navigate("/");
   };
 
+  const fuckGoBack = () =>{
+    navigate("/");
+  };
+
+  const userDataString = localStorage.getItem("userData");
+
   return (
     <div className="home-page-container">
+      {<button 
+        onClick={fuckGoBack} 
+        style={{ position: "absolute", top: "30px", left: "30px" }}
+        >
+        Go back to restaurants
+    </button>}
+      {userDataString && <NavigationBar setEditMode={setEditMode} />}
       <ul>
         {restaurants.map((restaurant) => (
           <div
@@ -49,10 +66,16 @@ const Order: React.FC<{
                     (prevTotalPrice) => prevTotalPrice + Number(priceToAdd)
                   )
                 }
+                onEdit={(onEditClick)}
+                editMode={editMode}
               ></FoodComponent>
+              
             ))}
+            
           </div>
+          
         ))}
+        
         <div style={{ display: "grid", placeItems: "center" }}>
           <button
             className="order-button"

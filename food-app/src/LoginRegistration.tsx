@@ -2,6 +2,9 @@ import { useState } from 'react'
 import axios from 'axios';
 import "./LoginRegistrationStyle.css"
 
+import { useNavigate } from 'react-router-dom';
+
+
 function LoginRegistration() {
   const [loginUsername, setLoginUsername] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
@@ -11,6 +14,8 @@ function LoginRegistration() {
   const [registrationEmail, setRegistrationEmail] = useState('');
   const [registrationFirstname, setRegistrationFirstname] = useState('');
   const [registrationSurname, setRegistrationSurname] = useState('');
+
+  const navigate = useNavigate();
 
 
   const handleLoginUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +61,7 @@ function LoginRegistration() {
         if (errorLabel) {
           errorLabel.textContent = '';
         }
+        localStorage.setItem('userData', JSON.stringify(userData));
         return false;
     } catch (error) {
         if (errorLabel) {
@@ -71,7 +77,7 @@ function LoginRegistration() {
     if(await fetchUserByUsername(loginUsername, loginPassword)){
       return;
     }
-    //TODO: redirect on restaruants
+    navigate('/')
   };
 
   const createPerson = async () => {
@@ -89,7 +95,7 @@ function LoginRegistration() {
     console.log(response.data.message);
   };
 
-  const handleRegistrationSubmit = (e: React.FormEvent) => {
+  const handleRegistrationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errorLabel = document.getElementById('regErrorLabel');
     if(registrationEmail == "" || registrationFirstname == "" || registrationPassword == "" || registrationSurname == "" || registrationUsername == "" ){
@@ -98,11 +104,33 @@ function LoginRegistration() {
       }
       return;
     }
+    
+    const resopnse = await axios.get(`http://127.0.0.1:8000/api/users/emails/${registrationEmail}/`)
+    const userEmail = resopnse.data.email
+    if (registrationEmail == userEmail) {
+      if (errorLabel) {
+        errorLabel.textContent = 'Duplicate email';
+        return;
+      }
+    }
+  
+    const registrationData = {
+      firstname: registrationFirstname,
+      surname: registrationSurname,
+      email: registrationEmail,
+      password: registrationPassword,
+      username: registrationUsername,
+      is_admin: false,
+    };
+    
+    localStorage.setItem('userData', JSON.stringify(registrationData));
+
+    
     if (errorLabel) {
       errorLabel.textContent = '';
     }
     createPerson();
-    //TODO: redirect on restaruants
+    navigate('/')
 
   };
 

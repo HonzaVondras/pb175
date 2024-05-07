@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from AppUsers.views import create_person, AppUser, AppUserUsername
+from AppUsers.views import create_person, AppUser, AppUserUsername, get_specific_email
+
 
 urlpatterns = [
     #path('api/users/<str:username>/', AppUserUsername.as_view(), name='appuser-username-detail'),
@@ -25,4 +26,5 @@ urlpatterns = [
     path('api/create-person/', create_person, name='create_person'),
     path('admin/', admin.site.urls),
     path('api/', include('menu.urls')),
+    path('api/users/emails/<str:email>/', get_specific_email, name='get_specific_email'),
 ]

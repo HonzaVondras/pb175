@@ -24,12 +24,18 @@ def create_person(request):
             is_admin=data.get('is_admin', False)
         )
 
-        # Save the user instance
         user.save()
 
         return JsonResponse({'message': 'Person created successfully'})
     else:
         return JsonResponse({'message': 'Invalid request method'}, status=400)
+
+def get_specific_email(request, email):
+    try:
+        user = User.objects.get(email=email)
+        return JsonResponse({'email': user.email})
+    except User.DoesNotExist:
+        return JsonResponse({'error': 'Email not found'})
 
 
 class AppUser(generics.ListAPIView):

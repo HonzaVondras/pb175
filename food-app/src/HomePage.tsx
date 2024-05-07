@@ -4,14 +4,17 @@ import { useNavigate } from "react-router-dom";
 import { Restaurant } from "./restaurantInterface";
 import RestaurantComponent from "./RestaurantComponent";
 import "./styles.css";
+import NavigationBar from "./NavigationBar";
 
 const HomePage: React.FC<{
   paidMoney: number;
   onRestaurantClick: (id: number) => void;
-}> = ({ paidMoney, onRestaurantClick }) => {
+  onEdit: (restaurant: Restaurant) => void;
+}> = ({ paidMoney, onRestaurantClick, onEdit }) => {
   const navigate = useNavigate();
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [searchedName, setSearchedName] = useState("");
+  const [editMode, setEditMode] = useState(localStorage.getItem('editMode') === 'true');
 
   useEffect(() => {
     axios
@@ -30,8 +33,16 @@ const HomePage: React.FC<{
     onRestaurantClick(id);
     navigate("/order");
   };
+
+  const handelEditClick = (restaurant: Restaurant) => {
+    onEdit(restaurant);
+  };
+
+  const userDataString = localStorage.getItem("userData");
+
   return (
     <div className="home-page-container">
+      {userDataString && <NavigationBar setEditMode={setEditMode} />}
       <h1>Restaurants</h1>
       {paidMoney > 0 && (
         <div className="paid-container">
@@ -53,7 +64,8 @@ const HomePage: React.FC<{
           key={restaurant.id}
           restaurant={restaurant}
           onRestaurantClick={handleRestaurantClick}
-        />
+          editMode={editMode}
+          onEditClick={handelEditClick}/>
       ))}
     </div>
   );

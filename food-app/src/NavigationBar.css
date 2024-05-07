@@ -1,0 +1,12 @@
+.navbar {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.navbar button {
+  display: block;
+  width: 120px;
+  height: 20px;
+  margin-bottom: 10px;
+}

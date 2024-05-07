@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { FoodItem } from "./foodItemInterface";
 import "./stylesFood.css";
+import { useNavigate } from "react-router-dom";
 
 interface FoodComponentProps {
   foodItem: FoodItem;
   onAddToOrder: (price: number) => void;
+  editMode: boolean;
+  onEdit: (food: FoodItem) => void;
 }
 
 const FoodComponent: React.FC<FoodComponentProps> = ({
   foodItem,
   onAddToOrder,
+  onEdit,
 }) => {
   const [foodAmount, setFoodAmount] = useState<number>(0);
+
+  const navigate = useNavigate();
 
   const handleAmountChange = (newAmount: number) => {
     if (newAmount < 0) {
@@ -25,6 +31,13 @@ const FoodComponent: React.FC<FoodComponentProps> = ({
       onAddToOrder(foodItem.price);
     }
   };
+
+  const handleFoodEdit = () => {
+    onEdit(foodItem);
+    navigate('/order-edit');
+  };
+
+  const editMode = localStorage.getItem("editMode");
 
   return (
     <div className="food-box">
@@ -48,6 +61,15 @@ const FoodComponent: React.FC<FoodComponentProps> = ({
           -
         </button>
       </div>
+
+      {editMode && (
+        <div className="edit-button-container">
+        <button className="edit-food-button" onClick={handleFoodEdit}>
+          Edit food
+        </button>
+        </div>
+      )}
+
     </div>
   );
 };
